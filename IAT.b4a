@@ -15,7 +15,7 @@ NumberOfModules=1
 Version=7.8
 @EndOfDesignText@
 #Region  Project Attributes 
-	#ApplicationLabel: Implicit Association Test
+	#ApplicationLabel: IAT
 	#VersionCode: 001
 	#VersionName: MildRain
 	'SupportedOrientations possible values: unspecified, landscape or portrait.
