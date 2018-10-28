@@ -1,0 +1,10 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+Files/**
+IAT.b4a.meta
+Starter.bas
+icon.jpg
+Objects/**
+!Objects/IAT.apk

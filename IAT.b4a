@@ -1,0 +1,396 @@
+﻿Build1=Default,b4a.example
+File1=login.bal
+File2=main.bal
+FileGroup1=Default Group
+FileGroup2=Default Group
+Group=Default Group
+IconFile=
+Library1=core
+Library2=messharelibrary
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: https://www.b4x.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="19"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
+Module1=Starter
+NumberOfFiles=2
+NumberOfLibraries=2
+NumberOfModules=1
+Version=7.8
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: Implicit Association Test
+	#VersionCode: 001
+	#VersionName: MildRain
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: landscape
+	#CanInstallToExternalStorage: False
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: True
+	#IncludeTitle: False
+#End Region
+
+Sub Process_Globals
+
+End Sub
+
+Sub Globals
+	Dim cGood As List
+	Dim cAlco As List
+	Dim result As List
+	
+	Dim logged, error As Boolean
+	Dim CanvasRes As Canvas
+		
+	Dim sharefname As String
+	Dim name, side, mark, tmp As String
+	Dim session, duration, t, time As Long
+	Dim x0 As Int
+	Dim block, n, i, i0 As Int
+	Dim Writer As TextWriter
+	
+	Private ButtonLStart, ButtonLShare, ButtonLClear As Button
+	Private EditTextLName, EditTextLAge As EditText
+	Private ToggleButtonLSex As ToggleButton
+	Private LabelInfoLeft, LabelInfoRight, LabelInfoBottom, LabelInfo, LabelLeft, LabelRight, LabelInfoBottom As Label
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	block = 1
+	n = 1
+	i0 = Rnd(0,10)
+	i = i0
+	error = False
+	
+	result.Initialize
+	cGood.Initialize
+	cGood.AddAll(Array As String("мерзко", "ужасно", "отвратительно", "гадко", "отрицательно", "вкусно", "приятно", "положительно", "полезно", "мило"))
+	cAlco.Initialize
+	cAlco.AddAll(Array As String("водка", "пиво", "вино", "коньяк", "виски","вода", "сок", "чай", "морс", "лимонад"))
+
+	logged = False
+	Activity.LoadLayout("main")
+	CanvasRes.Initialize(Activity)
+	CanvasRes.DrawColor(Colors.Black)
+	x0 = GetDeviceLayoutValues.Width/2
+	
+	CanvasRes.DrawColor(Colors.Black)
+		
+	If File.Exists(File.DirRootExternal & "/IAT", "") = False Then
+		File.MakeDir(File.DirRootExternal, "/IAT")
+	End If
+	
+	logged = False
+	login
+	
+	LabelInfo.Text = cAlco.Get(i0)
+	LabelInfoLeft.Text = "Напитки"
+	LabelInfoRight.Text = "Алкоголь"
+	'n = 121
+End Sub
+
+Sub Activity_Resume
+
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+
+End Sub
+
+Sub Activity_Touch(Action As Int, tx As Float, ty As Float)
+	If logged = True Then
+		Select Action
+			Case Activity.ACTION_DOWN
+				If LabelInfoBottom.Text <> "" Then
+					LabelInfoBottom.Text = ""
+					error = False
+				End If
+				t = DateTime.Now
+			Case Activity.ACTION_UP
+				time = DateTime.Now
+				duration = time-t
+				
+				If tx < x0 Then
+					side = "left"
+				Else
+					side = "right"
+				End If
+				
+				If block = 1 Then
+					If i < 5 Then
+						mark = "alco"
+					Else
+						mark = "soft"
+					End If
+					If (i < 5 And side = "right") Or (i > 4 And side = "left") Then
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						result.Add(tmp)
+						Log(tmp)
+						Do While i0 = i
+							i = Rnd(0,10)
+						Loop
+						i0 = i
+						LabelInfo.Text = cAlco.Get(i)
+						n = n + 1
+					Else
+						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
+						error = True
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						result.Add(tmp)
+						Log(tmp)
+					End If
+				Else If block = 2 Then
+					If i < 5 Then
+						mark = "bad"
+					Else
+						mark = "good"
+					End If
+					If (i < 5 And side = "right") Or (i > 4 And side = "left") Then
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						result.Add(tmp)
+						Log(tmp)
+						Do While i0 = i
+							i = Rnd(0,10)
+						Loop
+						i0 = i
+						LabelInfo.Text = cGood.Get(i)
+						n = n + 1
+					Else
+						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
+						error = True
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						result.Add(tmp)
+						Log(tmp)
+					End If
+				Else If block = 3 Or block = 4 Then
+					If i < 5 Then
+						mark = "badalco"
+					Else
+						mark = "goodsoft"
+					End If
+					If (i < 5 And side = "right") Or (i > 4 And side = "left") Then
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						result.Add(tmp)
+						Log(tmp)
+						Do While i0 = i
+							i = Rnd(0,10)
+						Loop
+						i0 = i
+						If Rnd(0,2) = 0 Then
+							LabelInfo.Text = cAlco.Get(i)
+						Else
+							LabelInfo.Text = cGood.Get(i)
+						End If
+						n = n + 1
+					Else
+						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
+						error = True
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						result.Add(tmp)
+						Log(tmp)
+					End If
+				Else If block = 5 Then
+					If i < 5 Then
+						mark = "bad"
+					Else
+						mark = "good"
+					End If
+					If (i > 5 And side = "right") Or (i < 4 And side = "left") Then
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						result.Add(tmp)
+						Log(tmp)
+						Do While i0 = i
+							i = Rnd(0,10)
+						Loop
+						i0 = i
+						LabelInfo.Text = cAlco.Get(i)
+						n = n + 1
+					Else
+						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
+						error = True
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						result.Add(tmp)
+						Log(tmp)
+					End If
+				Else If block = 6 Or block = 7 Then
+					If i < 5 Then
+						mark = "goodalco"
+					Else
+						mark = "badsoft"
+					End If
+					If (i < 5 And side = "right") Or (i > 4 And side = "left") Then
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						result.Add(tmp)
+						Log(tmp)
+						Do While i0 = 9-i
+							i = Rnd(0,10)
+						Loop
+						
+						If Rnd(0,2) = 0 Then
+							LabelInfo.Text = cAlco.Get(i)
+						Else
+							LabelInfo.Text = cGood.Get(9-i)
+						End If
+						i0 = 9-i
+						n = n + 1
+					Else
+						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
+						error = True
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						result.Add(tmp)
+						Log(tmp)
+					End If
+				Else If block = 8 Then
+					LabelInfoLeft.Text = ""
+					LabelInfoRight.Text = ""
+					LabelInfo.Text = ""
+
+					name = ""
+					session = 0
+					block = 1
+					n = 1
+					
+					Msgbox("Исследование окончено, спасибо!","")
+					Writer.Initialize(File.OpenOutput(File.DirRootExternal,"IAT/IAT.csv",True))
+					Writer.WriteList(result)
+					Writer.Close
+					result.Clear
+					ToastMessageShow ("Данные были успешно сохранены в файл " & File.DirRootExternal & "IAT/IAT.csv", True)
+					logged = False
+					login
+				End If
+				
+				If error = False Then
+					If n = 1 Then
+						block = 1
+						LabelInfoLeft.Text = "Напитки"
+						LabelInfoRight.Text = "Алкоголь"
+					else if n = 11 Then '21
+						block = 2
+						LabelInfoLeft.Text = "Хорошо"
+						LabelInfoRight.Text = "Плохо"
+						Do While i0 = i
+							i = Rnd(0,10)
+						Loop
+						i0 = i
+						LabelInfo.Text = cGood.Get(i)
+						Msgbox("Сделайте выбор между Хорошим и Плохим","Этап "&block)
+					else if n = 21 Then '41
+						block = 3
+						LabelInfoLeft.Text = "Хорошо"&CRLF&"или"&CRLF&"Напитки"
+						LabelInfoRight.Text = "Плохо"&CRLF&"или"&CRLF&"Алкоголь"
+						Msgbox("Сделайте выбор между Хорошим + Напитки и Плохим + Алкоголь","Этап "&block)
+					else if n = 31 Then '61
+						block = 4
+						LabelInfoLeft.Text = "Хорошо"&CRLF&"или"&CRLF&"Напитки"
+						LabelInfoRight.Text = "Плохо"&CRLF&"или"&CRLF&"Алкоголь"
+						Msgbox("Сделайте выбор между Хорошим + Напитки и Плохим + Алкоголь","Этап "&block)
+					else if n = 41 Then '101
+						block = 5
+						LabelInfoLeft.Text = "Плохо"
+						LabelInfoRight.Text = "Хорошо"
+						Do While i0 = i
+							i = Rnd(0,10)
+						Loop
+						i0 = i
+						LabelInfo.Text = cGood.Get(i)
+						Msgbox("Сделайте выбор между Плохим и Хорошим","Этап "&block)
+					else if n = 51 Then '121
+						block = 6
+						LabelInfoLeft.Text = "Плохо"&CRLF&"или"&CRLF&"Напитки"
+						LabelInfoRight.Text = "Хорошо"&CRLF&"или"&CRLF&"Алкоголь"
+						Msgbox("Сделайте выбор между Плохим + Напитки и Хорошим + Алкоголь","Этап "&block)
+					else if n = 61 Then '141
+						block = 7
+						LabelInfoLeft.Text = "Плохо"&CRLF&"или"&CRLF&"Напитки"
+						LabelInfoRight.Text = "Хорошо"&CRLF&"или"&CRLF&"Алкоголь"
+						Msgbox("Сделайте выбор между Плохим + Напитки и Хорошим + Алкоголь","Этап "&block)
+					else if n = 71 Then '181
+						block = 8
+					End If
+				End If
+		End Select
+	End If
+End Sub
+
+Sub sharedata
+	Dim share As MESShareLibrary
+	sharefname = "IAT/IAT."& DateTime.Now & ".csv"
+	File.Copy(File.DirRootExternal, "IAT/IAT.csv", File.DirRootExternal, sharefname)
+	share.sharebinary("file://" & File.DirRootExternal & "/" & sharefname, "Text/csv", "Send backup file", "")
+End Sub
+
+Sub ButtonLShare_Click
+	sharedata
+End Sub
+
+Sub deletedata
+	Dim msgans As Int
+	msgans = Msgbox2("Вы действительно ходите очистить результаты всех исследований?", "", "Да", "Нет", "", Null)
+	If msgans = -1 Then
+		File.Copy(File.DirRootExternal, "IAT/IAT.csv", File.DirRootExternal, "IAT/backup.IAT.csv")
+		
+		Dim reslist As List
+		reslist.initialize
+		Dim resfile As String
+		reslist=File.ListFiles(File.DirRootExternal & "/IAT")
+		For i = reslist.Size-1 To 0 Step -1
+			resfile=reslist.Get(i)
+			If resfile <> "backup.IAT.csv" Then
+				File.Delete(File.DirRootExternal & "/IAT",resfile)
+			End If
+		Next
+		
+		ButtonLShare.Enabled  = False
+		ButtonLClear.Enabled = False
+	End If
+End Sub
+
+Sub ButtonLClear_Click
+	deletedata
+End Sub
+
+Sub login
+	If logged = False Then
+		CanvasRes.DrawColor(Colors.Black)
+		Activity.RemoveAllViews
+		Activity.LoadLayout("login")
+		If File.Exists(File.DirRootExternal, "IAT/IAT.csv") = False Then
+			ButtonLShare.Enabled  = False
+			ButtonLClear.Enabled = False
+		End If
+	End If
+End Sub
+
+Sub ButtonLStart_Click
+	If EditTextLName.Text = "" Or EditTextLAge.Text = "" Then
+		ToastMessageShow ("Корректно укажите данные!", False)
+	Else
+		If File.Exists(File.DirRootExternal, "IAT/IAT.csv") = False Then
+			ButtonLShare.Enabled  = False
+			ButtonLClear.Enabled = False
+		End If
+		logged = True
+		If ToggleButtonLSex.Checked = False Then
+			name = EditTextLName.Text&",муж,"&EditTextLAge.Text
+		Else
+			name = EditTextLName.Text&",жен,"&EditTextLAge.Text
+		End If
+		Activity.RemoveAllViews
+		Activity.LoadLayout("main")
+		
+		LabelInfoLeft.Text = "Напитки"
+		LabelInfoRight.Text = "Алкоголь"
+		
+		LabelInfo.Color = Colors.RGB(255,255,120)
+		LabelInfo.TextColor = Colors.Black
+
+		LabelInfoRight.Color  = Colors.DarkGray
+		LabelInfoLeft.Color   = Colors.DarkGray
+		LabelInfoBottom.Color = Colors.DarkGray
+		
+		i0 = Rnd(0,9)
+		i = i0
+		LabelInfo.Text = cAlco.Get(i0)
+		session = DateTime.Now
+		Msgbox("Сделайте выбор между Напитками и Алкоголем","Этап 1")
+	End If
+End Sub
