@@ -66,7 +66,6 @@ Sub Activity_Create(FirstTime As Boolean)
 	cAlco.Initialize
 	cAlco.AddAll(Array As String("водка", "пиво", "вино", "коньяк", "виски","вода", "сок", "чай", "морс", "лимонад"))
 
-	logged = False
 	Activity.LoadLayout("main")
 	CanvasRes.Initialize(Activity)
 	CanvasRes.DrawColor(Colors.Black)
@@ -81,7 +80,6 @@ Sub Activity_Create(FirstTime As Boolean)
 	logged = False
 	login
 	
-	LabelInfo.Text = cAlco.Get(i0)
 	LabelInfoLeft.Text = "Напитки"
 	LabelInfoRight.Text = "Алкоголь"
 	'n = 121
@@ -108,6 +106,8 @@ Sub Activity_Touch(Action As Int, tx As Float, ty As Float)
 				time = DateTime.Now
 				duration = time-t
 				
+				LabelInfoBottom.Text = "Блок: "&block&", n: "&n
+				
 				If tx < x0 Then
 					side = "left"
 				Else
@@ -115,128 +115,74 @@ Sub Activity_Touch(Action As Int, tx As Float, ty As Float)
 				End If
 				
 				If block = 1 Then
-					If i < 5 Then
-						mark = "alco"
-					Else
-						mark = "soft"
-					End If
-					If (i < 5 And side = "right") Or (i > 4 And side = "left") Then
+					If (mark = "soft" And side = "left") Or (mark = "alco" And side = "right") Then
 						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
 						result.Add(tmp)
-						Log(tmp)
-						Do While i0 = i
-							i = Rnd(0,10)
-						Loop
-						i0 = i
-						LabelInfo.Text = cAlco.Get(i)
+						Log(tmp&": "&LabelInfo.Text)
+						doTest
 						n = n + 1
 					Else
 						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
 						error = True
 						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
 						result.Add(tmp)
-						Log(tmp)
+						Log(tmp&": "&LabelInfo.Text)
 					End If
 				Else If block = 2 Then
-					If i < 5 Then
-						mark = "bad"
-					Else
-						mark = "good"
-					End If
-					If (i < 5 And side = "right") Or (i > 4 And side = "left") Then
+					If (mark = "good" And side = "left") Or (mark = "bad" And side = "right") Then
 						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
 						result.Add(tmp)
-						Log(tmp)
-						Do While i0 = i
-							i = Rnd(0,10)
-						Loop
-						i0 = i
-						LabelInfo.Text = cGood.Get(i)
+						Log(tmp&": "&LabelInfo.Text)
+						doTest
 						n = n + 1
 					Else
 						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
 						error = True
 						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
 						result.Add(tmp)
-						Log(tmp)
+						Log(tmp&": "&LabelInfo.Text)
 					End If
 				Else If block = 3 Or block = 4 Then
-					If i < 5 Then
-						mark = "badalco"
-					Else
-						mark = "goodsoft"
-					End If
-					If (i < 5 And side = "right") Or (i > 4 And side = "left") Then
+					If (mark = "goodsoft" And side = "left") Or (mark = "badalco" And side = "right") Then
 						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
 						result.Add(tmp)
-						Log(tmp)
-						Do While i0 = i
-							i = Rnd(0,10)
-						Loop
-						i0 = i
-						If Rnd(0,2) = 0 Then
-							LabelInfo.Text = cAlco.Get(i)
-						Else
-							LabelInfo.Text = cGood.Get(i)
-						End If
+						Log(tmp&": "&LabelInfo.Text)
+						doTest
 						n = n + 1
 					Else
 						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
 						error = True
 						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
 						result.Add(tmp)
-						Log(tmp)
+						Log(tmp&": "&LabelInfo.Text)
 					End If
 				Else If block = 5 Then
-					If i < 5 Then
-						mark = "bad"
-					Else
-						mark = "good"
-					End If
-					If (i > 5 And side = "right") Or (i < 4 And side = "left") Then
+					If (mark = "bad" And side = "left") Or (mark = "good" And side = "right") Then
 						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
 						result.Add(tmp)
-						Log(tmp)
-						Do While i0 = i
-							i = Rnd(0,10)
-						Loop
-						i0 = i
-						LabelInfo.Text = cAlco.Get(i)
+						Log(tmp&": "&LabelInfo.Text)
+						doTest
 						n = n + 1
 					Else
 						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
 						error = True
 						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
 						result.Add(tmp)
-						Log(tmp)
+						Log(tmp&": "&LabelInfo.Text)
 					End If
 				Else If block = 6 Or block = 7 Then
-					If i < 5 Then
-						mark = "goodalco"
-					Else
-						mark = "badsoft"
-					End If
-					If (i < 5 And side = "right") Or (i > 4 And side = "left") Then
+					If (mark = "badsoft" And side = "left") Or (mark = "goodalco" And side = "right") Then
 						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
 						result.Add(tmp)
-						Log(tmp)
-						Do While i0 = 9-i
-							i = Rnd(0,10)
-						Loop
-						
-						If Rnd(0,2) = 0 Then
-							LabelInfo.Text = cAlco.Get(i)
-						Else
-							LabelInfo.Text = cGood.Get(9-i)
-						End If
-						i0 = 9-i
+						Log(tmp&": "&LabelInfo.Text)
+						doTest
 						n = n + 1
 					Else
 						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
 						error = True
 						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
 						result.Add(tmp)
-						Log(tmp)
+						Log(tmp&": "&LabelInfo.Text)
 					End If
 				Else If block = 8 Then
 					LabelInfoLeft.Text = ""
@@ -267,47 +213,128 @@ Sub Activity_Touch(Action As Int, tx As Float, ty As Float)
 						block = 2
 						LabelInfoLeft.Text = "Хорошо"
 						LabelInfoRight.Text = "Плохо"
-						Do While i0 = i
-							i = Rnd(0,10)
-						Loop
-						i0 = i
-						LabelInfo.Text = cGood.Get(i)
+						doTest
 						Msgbox("Сделайте выбор между Хорошим и Плохим","Этап "&block)
 					else if n = 21 Then '41
 						block = 3
 						LabelInfoLeft.Text = "Хорошо"&CRLF&"или"&CRLF&"Напитки"
 						LabelInfoRight.Text = "Плохо"&CRLF&"или"&CRLF&"Алкоголь"
+						doTest
 						Msgbox("Сделайте выбор между Хорошим + Напитки и Плохим + Алкоголь","Этап "&block)
 					else if n = 31 Then '61
 						block = 4
 						LabelInfoLeft.Text = "Хорошо"&CRLF&"или"&CRLF&"Напитки"
 						LabelInfoRight.Text = "Плохо"&CRLF&"или"&CRLF&"Алкоголь"
+						doTest
 						Msgbox("Сделайте выбор между Хорошим + Напитки и Плохим + Алкоголь","Этап "&block)
 					else if n = 41 Then '101
 						block = 5
 						LabelInfoLeft.Text = "Плохо"
 						LabelInfoRight.Text = "Хорошо"
-						Do While i0 = i
-							i = Rnd(0,10)
-						Loop
-						i0 = i
-						LabelInfo.Text = cGood.Get(i)
+						doTest
 						Msgbox("Сделайте выбор между Плохим и Хорошим","Этап "&block)
 					else if n = 51 Then '121
 						block = 6
 						LabelInfoLeft.Text = "Плохо"&CRLF&"или"&CRLF&"Напитки"
 						LabelInfoRight.Text = "Хорошо"&CRLF&"или"&CRLF&"Алкоголь"
+						doTest
 						Msgbox("Сделайте выбор между Плохим + Напитки и Хорошим + Алкоголь","Этап "&block)
 					else if n = 61 Then '141
 						block = 7
 						LabelInfoLeft.Text = "Плохо"&CRLF&"или"&CRLF&"Напитки"
 						LabelInfoRight.Text = "Хорошо"&CRLF&"или"&CRLF&"Алкоголь"
+						doTest
 						Msgbox("Сделайте выбор между Плохим + Напитки и Хорошим + Алкоголь","Этап "&block)
 					else if n = 71 Then '181
 						block = 8
 					End If
 				End If
 		End Select
+	End If
+End Sub
+
+Sub doTest
+	If block = 1 Then
+		Do While i0 = i
+			i = Rnd(0,10)
+		Loop
+		i0 = i
+		If i < 5 Then
+			mark = "alco"
+		Else
+			mark = "soft"
+		End If
+		LabelInfo.Text = cAlco.Get(i)
+	else if block = 2 Then
+		Do While i0 = i
+			i = Rnd(0,10)
+		Loop
+		i0 = i
+		If i < 5 Then
+			mark = "bad"
+		Else
+			mark = "good"
+		End If
+		LabelInfo.Text = cGood.Get(i)
+	else if block = 3 Or block = 4 Then
+		' определяем индекс элемента
+		Do While i0 = i
+			i = Rnd(0,10)
+		Loop
+		i0 = i
+		' определяем алкоголь или эмоции
+		If Rnd(0,2) = 0 Then
+			LabelInfo.Text = cAlco.Get(i)
+			mark = "alco"
+		Else
+			LabelInfo.Text = cGood.Get(i)
+			mark = "good"
+		End If
+		
+		If mark = "alco" And i < 5 Then
+			mark = "badalco"
+		else if mark = "alco" And i > 4 Then
+			mark = "goodsoft"
+		else if mark = "good" And i < 5 Then
+			mark = "badalco"
+		else if mark = "good" And i > 4 Then
+			mark = "goodsoft"
+		End If
+	else if block = 5 Then
+		Do While i0 = i
+			i = Rnd(0,10)
+		Loop
+		i0 = i
+		If i < 5 Then
+			mark = "bad"
+		Else
+			mark = "good"
+		End If
+		LabelInfo.Text = cGood.Get(i)
+	else if block = 6 Or block = 7 Then
+		' определяем индекс элемента
+		Do While i0 = i
+			i = Rnd(0,10)
+		Loop
+		i0 = i
+		' определяем алкоголь или эмоции
+		If Rnd(0,2) = 0 Then
+			LabelInfo.Text = cAlco.Get(i)
+			mark = "alco"
+		Else
+			LabelInfo.Text = cGood.Get(i)
+			mark = "good"
+		End If
+		
+		If mark = "alco" And i < 5 Then
+			mark = "goodalco"
+		else if mark = "alco" And i > 4 Then
+			mark = "badsoft"
+		else if mark = "good" And i < 5 Then
+			mark = "badsoft"
+		else if mark = "good" And i > 4 Then
+			mark = "goodalco"
+		End If
 	End If
 End Sub
 
@@ -357,6 +384,7 @@ Sub login
 			ButtonLShare.Enabled  = False
 			ButtonLClear.Enabled = False
 		End If
+		doTest
 	End If
 End Sub
 
@@ -387,10 +415,8 @@ Sub ButtonLStart_Click
 		LabelInfoLeft.Color   = Colors.DarkGray
 		LabelInfoBottom.Color = Colors.DarkGray
 		
-		i0 = Rnd(0,9)
-		i = i0
-		LabelInfo.Text = cAlco.Get(i0)
 		session = DateTime.Now
+		doTest
 		Msgbox("Сделайте выбор между Напитками и Алкоголем","Этап 1")
 	End If
 End Sub
