@@ -130,59 +130,59 @@ Sub Activity_Touch(Action As Int, tx As Float, ty As Float)
 					End If
 				Else If block = 2 Then
 					If (mark = "good" And side = "left") Or (mark = "bad" And side = "right") Then
-						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error&";"&LabelInfo.Text
 						result.Add(tmp)
-						Log(tmp&": "&LabelInfo.Text)
+						Log(tmp)
 						doTest
 						n = n + 1
 					Else
 						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
 						error = True
-						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error&";"&LabelInfo.Text
 						result.Add(tmp)
-						Log(tmp&": "&LabelInfo.Text)
+						Log(tmp)
 					End If
 				Else If block = 3 Or block = 4 Then
 					If (mark = "goodsoft" And side = "left") Or (mark = "badalco" And side = "right") Then
-						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error&";"&LabelInfo.Text
 						result.Add(tmp)
-						Log(tmp&": "&LabelInfo.Text)
+						Log(tmp)
 						doTest
 						n = n + 1
 					Else
 						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
 						error = True
-						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error&";"&LabelInfo.Text
 						result.Add(tmp)
-						Log(tmp&": "&LabelInfo.Text)
+						Log(tmp)
 					End If
 				Else If block = 5 Then
 					If (mark = "bad" And side = "left") Or (mark = "good" And side = "right") Then
-						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error&";"&LabelInfo.Text
 						result.Add(tmp)
-						Log(tmp&": "&LabelInfo.Text)
+						Log(tmp)
 						doTest
 						n = n + 1
 					Else
 						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
 						error = True
-						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error&";"&LabelInfo.Text
 						result.Add(tmp)
-						Log(tmp&": "&LabelInfo.Text)
+						Log(tmp)
 					End If
 				Else If block = 6 Or block = 7 Then
 					If (mark = "badsoft" And side = "left") Or (mark = "goodalco" And side = "right") Then
-						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error&";"&LabelInfo.Text
 						result.Add(tmp)
-						Log(tmp&": "&LabelInfo.Text)
+						Log(tmp)
 						doTest
 						n = n + 1
 					Else
 						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
 						error = True
-						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error&";"&LabelInfo.Text
 						result.Add(tmp)
-						Log(tmp&": "&LabelInfo.Text)
+						Log(tmp)
 					End If
 				Else If block = 8 Then
 					LabelInfoLeft.Text = ""
