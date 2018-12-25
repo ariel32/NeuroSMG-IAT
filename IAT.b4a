@@ -106,7 +106,7 @@ Sub Activity_Touch(Action As Int, tx As Float, ty As Float)
 				time = DateTime.Now
 				duration = time-t
 				
-				LabelInfoBottom.Text = "Блок: "&block&", n: "&n
+				'LabelInfoBottom.Text = "Блок: "&block&", n: "&n
 				
 				If tx < x0 Then
 					side = "left"
@@ -116,17 +116,17 @@ Sub Activity_Touch(Action As Int, tx As Float, ty As Float)
 				
 				If block = 1 Then
 					If (mark = "soft" And side = "left") Or (mark = "alco" And side = "right") Then
-						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error&";"&LabelInfo.Text
 						result.Add(tmp)
-						Log(tmp&": "&LabelInfo.Text)
+						Log(tmp)
 						doTest
 						n = n + 1
 					Else
 						LabelInfoBottom.Text = "НЕВЕРНО!"&CRLF&"Сделайте правильный выбор"
 						error = True
-						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error
+						tmp = session&";"&name&";"&time&";"&block&";"&n&";"&duration&";"&side&";"&i&";"&mark&";"&error&";"&LabelInfo.Text
 						result.Add(tmp)
-						Log(tmp&": "&LabelInfo.Text)
+						Log(tmp)
 					End If
 				Else If block = 2 Then
 					If (mark = "good" And side = "left") Or (mark = "bad" And side = "right") Then
