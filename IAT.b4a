@@ -209,43 +209,43 @@ Sub Activity_Touch(Action As Int, tx As Float, ty As Float)
 						block = 1
 						LabelInfoLeft.Text = "Напитки"
 						LabelInfoRight.Text = "Алкоголь"
-					else if n = 11 Then '21
+					else if n = 21 Then '11
 						block = 2
 						LabelInfoLeft.Text = "Хорошо"
 						LabelInfoRight.Text = "Плохо"
 						doTest
 						Msgbox("Сделайте выбор между Хорошим и Плохим","Этап "&block)
-					else if n = 21 Then '41
+					else if n = 41 Then '21
 						block = 3
 						LabelInfoLeft.Text = "Хорошо"&CRLF&"или"&CRLF&"Напитки"
 						LabelInfoRight.Text = "Плохо"&CRLF&"или"&CRLF&"Алкоголь"
 						doTest
 						Msgbox("Сделайте выбор между Хорошим + Напитки и Плохим + Алкоголь","Этап "&block)
-					else if n = 31 Then '61
+					else if n = 61 Then '31
 						block = 4
 						LabelInfoLeft.Text = "Хорошо"&CRLF&"или"&CRLF&"Напитки"
 						LabelInfoRight.Text = "Плохо"&CRLF&"или"&CRLF&"Алкоголь"
 						doTest
 						Msgbox("Сделайте выбор между Хорошим + Напитки и Плохим + Алкоголь","Этап "&block)
-					else if n = 41 Then '101
+					else if n = 101 Then '41
 						block = 5
 						LabelInfoLeft.Text = "Плохо"
 						LabelInfoRight.Text = "Хорошо"
 						doTest
 						Msgbox("Сделайте выбор между Плохим и Хорошим","Этап "&block)
-					else if n = 51 Then '121
+					else if n = 121 Then '51
 						block = 6
 						LabelInfoLeft.Text = "Плохо"&CRLF&"или"&CRLF&"Напитки"
 						LabelInfoRight.Text = "Хорошо"&CRLF&"или"&CRLF&"Алкоголь"
 						doTest
 						Msgbox("Сделайте выбор между Плохим + Напитки и Хорошим + Алкоголь","Этап "&block)
-					else if n = 61 Then '141
+					else if n = 141 Then '61
 						block = 7
 						LabelInfoLeft.Text = "Плохо"&CRLF&"или"&CRLF&"Напитки"
 						LabelInfoRight.Text = "Хорошо"&CRLF&"или"&CRLF&"Алкоголь"
 						doTest
 						Msgbox("Сделайте выбор между Плохим + Напитки и Хорошим + Алкоголь","Этап "&block)
-					else if n = 71 Then '181
+					else if n = 181 Then '71
 						block = 8
 					End If
 				End If
