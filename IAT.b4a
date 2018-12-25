@@ -82,6 +82,7 @@ Sub Activity_Create(FirstTime As Boolean)
 	
 	LabelInfoLeft.Text = "Напитки"
 	LabelInfoRight.Text = "Алкоголь"
+	block = 7 :	n = 178
 End Sub
 
 Sub Activity_Resume
@@ -416,6 +417,8 @@ Sub ButtonLStart_Click
 		LabelInfoBottom.Color = Colors.DarkGray
 		
 		session = DateTime.Now
+		i0 = Rnd(0,10)
+		i = i0
 		doTest
 		Msgbox("Сделайте выбор между Напитками и Алкоголем","Этап 1")
 		LabelInfoBottom.Text = "Блок: "&block&", n: 1"
