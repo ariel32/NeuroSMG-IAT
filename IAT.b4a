@@ -82,7 +82,6 @@ Sub Activity_Create(FirstTime As Boolean)
 	
 	LabelInfoLeft.Text = "Напитки"
 	LabelInfoRight.Text = "Алкоголь"
-	'n = 121
 End Sub
 
 Sub Activity_Resume
@@ -106,7 +105,7 @@ Sub Activity_Touch(Action As Int, tx As Float, ty As Float)
 				time = DateTime.Now
 				duration = time-t
 				
-				'LabelInfoBottom.Text = "Блок: "&block&", n: "&n
+				LabelInfoBottom.Text = "Блок: "&block&", n: "&(n+1)
 				
 				If tx < x0 Then
 					side = "left"
@@ -384,6 +383,7 @@ Sub login
 			ButtonLShare.Enabled  = False
 			ButtonLClear.Enabled = False
 		End If
+		LabelInfoBottom.Text = "Блок: "&block&", n: "&(n+1)
 		doTest
 	End If
 End Sub
@@ -418,5 +418,6 @@ Sub ButtonLStart_Click
 		session = DateTime.Now
 		doTest
 		Msgbox("Сделайте выбор между Напитками и Алкоголем","Этап 1")
+		LabelInfoBottom.Text = "Блок: "&block&", n: 1"
 	End If
 End Sub
