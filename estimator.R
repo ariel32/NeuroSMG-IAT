@@ -21,9 +21,9 @@ do.estimation <- function(filename) {
   for(x in unique(d.src$session)) {
     # x = unique(d.src$session)[1]
     print(x)
-    result <- data.frame(session = d$session[1], name = d$name[1])
     
     d <- d.src[d.src$session==x,]
+    result <- data.frame(session = d$session[1], name = d$name[1])
     
     # data quality - errors
     result$errors.all         <- length(d$error[d$error == "true"])/length(d$error[d$error == "false"])
@@ -63,48 +63,109 @@ do.estimation <- function(filename) {
     result$slow.ans    <- sum(d.all$tick > 10000, na.rm = T)
     
     # time intervals
-    result$time.b1.soft     <- mean(d.all$tick[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
-    result$time.b1.alco     <- mean(d.all$tick[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$time.b1.soft     <- median(d.all$tick[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
+    result$time.b1.alco     <- median(d.all$tick[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
     
-    result$time.b2.good     <- mean(d.all$tick[d.all$block== 2 & d.all$mark == "good"], na.rm = T)
-    result$time.b2.bad      <- mean(d.all$tick[d.all$block== 2 & d.all$mark == "bad"], na.rm = T)
+    result$time.b2.good     <- median(d.all$tick[d.all$block== 2 & d.all$mark == "good"], na.rm = T)
+    result$time.b2.bad      <- median(d.all$tick[d.all$block== 2 & d.all$mark == "bad"], na.rm = T)
     
-    result$time.b3.goodsoft <- mean(d.all$tick[d.all$block== 3 & d.all$mark == "goodsoft"], na.rm = T)
-    result$time.b3.badalco  <- mean(d.all$tick[d.all$block== 3 & d.all$mark == "badalco"], na.rm = T)
+    result$time.b3.goodsoft <- median(d.all$tick[d.all$block== 3 & d.all$mark == "goodsoft"], na.rm = T)
+    result$time.b3.badalco  <- median(d.all$tick[d.all$block== 3 & d.all$mark == "badalco"], na.rm = T)
     
-    result$time.b4.goodsoft <- mean(d.all$tick[d.all$block== 4 & d.all$mark == "goodsoft"], na.rm = T)
-    result$time.b4.badalco  <- mean(d.all$tick[d.all$block== 4 & d.all$mark == "badalco"], na.rm = T)
+    result$time.b4.goodsoft <- median(d.all$tick[d.all$block== 4 & d.all$mark == "goodsoft"], na.rm = T)
+    result$time.b4.badalco  <- median(d.all$tick[d.all$block== 4 & d.all$mark == "badalco"], na.rm = T)
     
-    result$time.b5.bad      <- mean(d.all$tick[d.all$block== 5 & d.all$mark == "bad"], na.rm = T)
-    result$time.b5.good     <- mean(d.all$tick[d.all$block== 5 & d.all$mark == "good"], na.rm = T)
+    result$time.b5.bad      <- median(d.all$tick[d.all$block== 5 & d.all$mark == "bad"], na.rm = T)
+    result$time.b5.good     <- median(d.all$tick[d.all$block== 5 & d.all$mark == "good"], na.rm = T)
     
-    result$time.b5.badsoft  <- mean(d.all$tick[d.all$block== 6 & d.all$mark == "badsoft"], na.rm = T)
-    result$time.b5.goodalco <- mean(d.all$tick[d.all$block== 6 & d.all$mark == "goodalco"], na.rm = T)
+    result$time.b6.badsoft  <- median(d.all$tick[d.all$block== 6 & d.all$mark == "badsoft"], na.rm = T)
+    result$time.b6.goodalco <- median(d.all$tick[d.all$block== 6 & d.all$mark == "goodalco"], na.rm = T)
     
-    result$time.b5.badsoft  <- mean(d.all$tick[d.all$block== 7 & d.all$mark == "badsoft"], na.rm = T)
-    result$time.b5.goodalco <- mean(d.all$tick[d.all$block== 7 & d.all$mark == "goodalco"], na.rm = T)
+    result$time.b7.badsoft  <- median(d.all$tick[d.all$block== 7 & d.all$mark == "badsoft"], na.rm = T)
+    result$time.b7.goodalco <- median(d.all$tick[d.all$block== 7 & d.all$mark == "goodalco"], na.rm = T)
+    
+    # time ratios
+    result$ratio.time.b1 <- median(d.all$tick[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)/median(d.all$tick[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$ratio.time.b2 <- median(d.all$tick[d.all$block== 2 & d.all$mark == "good"], na.rm = T)/median(d.all$tick[d.all$block== 2 & d.all$mark == "bad"], na.rm = T)
+    result$ratio.time.b3 <- median(d.all$tick[d.all$block== 3 & d.all$mark == "goodsoft"], na.rm = T)/median(d.all$tick[d.all$block== 3 & d.all$mark == "badalco"], na.rm = T)
+    result$ratio.time.b4 <- median(d.all$tick[d.all$block== 4 & d.all$mark == "goodsoft"], na.rm = T)/median(d.all$tick[d.all$block== 4 & d.all$mark == "badalco"], na.rm = T)
+    result$ratio.time.b5 <- median(d.all$tick[d.all$block== 5 & d.all$mark == "bad"], na.rm = T)/median(d.all$tick[d.all$block== 5 & d.all$mark == "good"], na.rm = T)
+    result$ratio.time.b6 <- median(d.all$tick[d.all$block== 6 & d.all$mark == "badsoft"], na.rm = T)/median(d.all$tick[d.all$block== 6 & d.all$mark == "goodalco"], na.rm = T)
+    result$ratio.time.b7 <- median(d.all$tick[d.all$block== 7 & d.all$mark == "badsoft"], na.rm = T)/median(d.all$tick[d.all$block== 7 & d.all$mark == "goodalco"], na.rm = T)
+    
+    # time corrections
+    result$corrected.time.b3.good <- median(d.all$tick[d.all$block== 3 & d.all$mark == "goodsoft"], na.rm = T) - median(d.all$tick[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
+    result$corrected.time.b3.soft <- median(d.all$tick[d.all$block== 3 & d.all$mark == "goodsoft"], na.rm = T) - median(d.all$tick[d.all$block== 2 & d.all$mark == "good"], na.rm = T)
+    result$corrected.time.b3.bad  <- median(d.all$tick[d.all$block== 3 & d.all$mark == "badalco"], na.rm = T) - median(d.all$tick[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$corrected.time.b3.alco <- median(d.all$tick[d.all$block== 3 & d.all$mark == "badalco"], na.rm = T) - median(d.all$tick[d.all$block== 2 & d.all$mark == "bad"], na.rm = T)
+    
+    result$corrected.time.b4.good <- median(d.all$tick[d.all$block== 4 & d.all$mark == "goodsoft"], na.rm = T) - median(d.all$tick[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
+    result$corrected.time.b4.soft <- median(d.all$tick[d.all$block== 4 & d.all$mark == "goodsoft"], na.rm = T) - median(d.all$tick[d.all$block== 2 & d.all$mark == "good"], na.rm = T)
+    result$corrected.time.b4.bad  <- median(d.all$tick[d.all$block== 4 & d.all$mark == "badalco"], na.rm = T) - median(d.all$tick[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$corrected.time.b4.alco <- median(d.all$tick[d.all$block== 4 & d.all$mark == "badalco"], na.rm = T) - median(d.all$tick[d.all$block== 2 & d.all$mark == "bad"], na.rm = T)
+    
+    result$corrected.time.b6.bad  <- median(d.all$tick[d.all$block== 6 & d.all$mark == "badsoft"], na.rm = T) - median(d.all$tick[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
+    result$corrected.time.b6.soft <- median(d.all$tick[d.all$block== 6 & d.all$mark == "badsoft"], na.rm = T) - median(d.all$tick[d.all$block== 5 & d.all$mark == "bad"], na.rm = T)
+    result$corrected.time.b6.good <- median(d.all$tick[d.all$block== 6 & d.all$mark == "goodalco"], na.rm = T) - median(d.all$tick[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$corrected.time.b6.alco <- median(d.all$tick[d.all$block== 6 & d.all$mark == "goodalco"], na.rm = T) - median(d.all$tick[d.all$block== 5 & d.all$mark == "good"], na.rm = T)
+    
+    result$corrected.time.b7.bad  <- median(d.all$tick[d.all$block== 7 & d.all$mark == "badsoft"], na.rm = T) - median(d.all$tick[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
+    result$corrected.time.b7.soft <- median(d.all$tick[d.all$block== 7 & d.all$mark == "badsoft"], na.rm = T) - median(d.all$tick[d.all$block== 5 & d.all$mark == "bad"], na.rm = T)
+    result$corrected.time.b7.good <- median(d.all$tick[d.all$block== 7 & d.all$mark == "goodalco"], na.rm = T) - median(d.all$tick[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$corrected.time.b7.alco <- median(d.all$tick[d.all$block== 7 & d.all$mark == "goodalco"], na.rm = T) - median(d.all$tick[d.all$block== 5 & d.all$mark == "good"], na.rm = T)
     
     # tap duration
-    result$duration.b1.soft     <- mean(d.all$duration[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
-    result$duration.b1.alco     <- mean(d.all$duration[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$duration.b1.soft     <- median(d.all$duration[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
+    result$duration.b1.alco     <- median(d.all$duration[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
     
-    result$duration.b2.good     <- mean(d.all$duration[d.all$block== 2 & d.all$mark == "good"], na.rm = T)
-    result$duration.b2.bad      <- mean(d.all$duration[d.all$block== 2 & d.all$mark == "bad"], na.rm = T)
+    result$duration.b2.good     <- median(d.all$duration[d.all$block== 2 & d.all$mark == "good"], na.rm = T)
+    result$duration.b2.bad      <- median(d.all$duration[d.all$block== 2 & d.all$mark == "bad"], na.rm = T)
     
-    result$duration.b3.goodsoft <- mean(d.all$duration[d.all$block== 3 & d.all$mark == "goodsoft"], na.rm = T)
-    result$duration.b3.badalco  <- mean(d.all$duration[d.all$block== 3 & d.all$mark == "badalco"], na.rm = T)
+    result$duration.b3.goodsoft <- median(d.all$duration[d.all$block== 3 & d.all$mark == "goodsoft"], na.rm = T)
+    result$duration.b3.badalco  <- median(d.all$duration[d.all$block== 3 & d.all$mark == "badalco"], na.rm = T)
     
-    result$duration.b4.goodsoft <- mean(d.all$duration[d.all$block== 4 & d.all$mark == "goodsoft"], na.rm = T)
-    result$duration.b4.badalco  <- mean(d.all$duration[d.all$block== 4 & d.all$mark == "badalco"], na.rm = T)
+    result$duration.b4.goodsoft <- median(d.all$duration[d.all$block== 4 & d.all$mark == "goodsoft"], na.rm = T)
+    result$duration.b4.badalco  <- median(d.all$duration[d.all$block== 4 & d.all$mark == "badalco"], na.rm = T)
     
-    result$duration.b5.bad      <- mean(d.all$duration[d.all$block== 5 & d.all$mark == "bad"], na.rm = T)
-    result$duration.b5.good     <- mean(d.all$duration[d.all$block== 5 & d.all$mark == "good"], na.rm = T)
+    result$duration.b5.bad      <- median(d.all$duration[d.all$block== 5 & d.all$mark == "bad"], na.rm = T)
+    result$duration.b5.good     <- median(d.all$duration[d.all$block== 5 & d.all$mark == "good"], na.rm = T)
     
-    result$duration.b5.badsoft  <- mean(d.all$duration[d.all$block== 6 & d.all$mark == "badsoft"], na.rm = T)
-    result$duration.b5.goodalco <- mean(d.all$duration[d.all$block== 6 & d.all$mark == "goodalco"], na.rm = T)
+    result$duration.b6.badsoft  <- median(d.all$duration[d.all$block== 6 & d.all$mark == "badsoft"], na.rm = T)
+    result$duration.b6.goodalco <- median(d.all$duration[d.all$block== 6 & d.all$mark == "goodalco"], na.rm = T)
     
-    result$duration.b5.badsoft  <- mean(d.all$duration[d.all$block== 7 & d.all$mark == "badsoft"], na.rm = T)
-    result$duration.b5.goodalco <- mean(d.all$duration[d.all$block== 7 & d.all$mark == "goodalco"], na.rm = T)
+    result$duration.b7.badsoft  <- median(d.all$duration[d.all$block== 7 & d.all$mark == "badsoft"], na.rm = T)
+    result$duration.b7.goodalco <- median(d.all$duration[d.all$block== 7 & d.all$mark == "goodalco"], na.rm = T)
+    
+    
+    # duration ratios
+    result$ratio.duration.b1 <- median(d.all$duration[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)/median(d.all$duration[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$ratio.duration.b2 <- median(d.all$duration[d.all$block== 2 & d.all$mark == "good"], na.rm = T)/median(d.all$duration[d.all$block== 2 & d.all$mark == "bad"], na.rm = T)
+    result$ratio.duration.b3 <- median(d.all$duration[d.all$block== 3 & d.all$mark == "goodsoft"], na.rm = T)/median(d.all$duration[d.all$block== 3 & d.all$mark == "badalco"], na.rm = T)
+    result$ratio.duration.b4 <- median(d.all$duration[d.all$block== 4 & d.all$mark == "goodsoft"], na.rm = T)/median(d.all$duration[d.all$block== 4 & d.all$mark == "badalco"], na.rm = T)
+    result$ratio.duration.b5 <- median(d.all$duration[d.all$block== 5 & d.all$mark == "bad"], na.rm = T)/median(d.all$duration[d.all$block== 5 & d.all$mark == "good"], na.rm = T)
+    result$ratio.duration.b6 <- median(d.all$duration[d.all$block== 6 & d.all$mark == "badsoft"], na.rm = T)/median(d.all$duration[d.all$block== 6 & d.all$mark == "goodalco"], na.rm = T)
+    result$ratio.duration.b7 <- median(d.all$duration[d.all$block== 7 & d.all$mark == "badsoft"], na.rm = T)/median(d.all$duration[d.all$block== 7 & d.all$mark == "goodalco"], na.rm = T)
+    
+    # duration corrections
+    result$corrected.duration.b3.good <- median(d.all$duration[d.all$block== 3 & d.all$mark == "goodsoft"], na.rm = T) - median(d.all$duration[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
+    result$corrected.duration.b3.soft <- median(d.all$duration[d.all$block== 3 & d.all$mark == "goodsoft"], na.rm = T) - median(d.all$duration[d.all$block== 2 & d.all$mark == "good"], na.rm = T)
+    result$corrected.duration.b3.bad  <- median(d.all$duration[d.all$block== 3 & d.all$mark == "badalco"], na.rm = T) - median(d.all$duration[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$corrected.duration.b3.alco <- median(d.all$duration[d.all$block== 3 & d.all$mark == "badalco"], na.rm = T) - median(d.all$duration[d.all$block== 2 & d.all$mark == "bad"], na.rm = T)
+    
+    result$corrected.duration.b4.good <- median(d.all$duration[d.all$block== 4 & d.all$mark == "goodsoft"], na.rm = T) - median(d.all$duration[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
+    result$corrected.duration.b4.soft <- median(d.all$duration[d.all$block== 4 & d.all$mark == "goodsoft"], na.rm = T) - median(d.all$duration[d.all$block== 2 & d.all$mark == "good"], na.rm = T)
+    result$corrected.duration.b4.bad  <- median(d.all$duration[d.all$block== 4 & d.all$mark == "badalco"], na.rm = T) - median(d.all$duration[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$corrected.duration.b4.alco <- median(d.all$duration[d.all$block== 4 & d.all$mark == "badalco"], na.rm = T) - median(d.all$duration[d.all$block== 2 & d.all$mark == "bad"], na.rm = T)
+    
+    result$corrected.duration.b6.bad  <- median(d.all$duration[d.all$block== 6 & d.all$mark == "badsoft"], na.rm = T) - median(d.all$duration[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
+    result$corrected.duration.b6.soft <- median(d.all$duration[d.all$block== 6 & d.all$mark == "badsoft"], na.rm = T) - median(d.all$duration[d.all$block== 5 & d.all$mark == "bad"], na.rm = T)
+    result$corrected.duration.b6.good <- median(d.all$duration[d.all$block== 6 & d.all$mark == "goodalco"], na.rm = T) - median(d.all$duration[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$corrected.duration.b6.alco <- median(d.all$duration[d.all$block== 6 & d.all$mark == "goodalco"], na.rm = T) - median(d.all$duration[d.all$block== 5 & d.all$mark == "good"], na.rm = T)
+    
+    result$corrected.duration.b7.bad  <- median(d.all$duration[d.all$block== 7 & d.all$mark == "badsoft"], na.rm = T) - median(d.all$duration[d.all$block== 1 & d.all$mark == "soft"], na.rm = T)
+    result$corrected.duration.b7.soft <- median(d.all$duration[d.all$block== 7 & d.all$mark == "badsoft"], na.rm = T) - median(d.all$duration[d.all$block== 5 & d.all$mark == "bad"], na.rm = T)
+    result$corrected.duration.b7.good <- median(d.all$duration[d.all$block== 7 & d.all$mark == "goodalco"], na.rm = T) - median(d.all$duration[d.all$block== 1 & d.all$mark == "alco"], na.rm = T)
+    result$corrected.duration.b7.alco <- median(d.all$duration[d.all$block== 7 & d.all$mark == "goodalco"], na.rm = T) - median(d.all$duration[d.all$block== 5 & d.all$mark == "good"], na.rm = T)
     
     ################################################################################
     # true results with filtered errors - ticks measured from correct answers ONLY
@@ -115,275 +176,116 @@ do.estimation <- function(filename) {
     result$true.fast.ans    <- sum(d.true$tick < 300, na.rm = T)
     result$true.slow.ans    <- sum(d.true$tick > 10000, na.rm = T)
     
-    # time intervals
-    result$time.true.b1.soft     <- mean(d.true$tick[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
-    result$time.true.b1.alco     <- mean(d.true$tick[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    # TRUE time intervals
+    result$time.true.b1.soft     <- median(d.true$tick[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
+    result$time.true.b1.alco     <- median(d.true$tick[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
 
-    result$time.true.b2.good     <- mean(d.true$tick[d.true$block== 2 & d.true$mark == "good"], na.rm = T)
-    result$time.true.b2.bad      <- mean(d.true$tick[d.true$block== 2 & d.true$mark == "bad"], na.rm = T)
+    result$time.true.b2.good     <- median(d.true$tick[d.true$block== 2 & d.true$mark == "good"], na.rm = T)
+    result$time.true.b2.bad      <- median(d.true$tick[d.true$block== 2 & d.true$mark == "bad"], na.rm = T)
     
-    result$time.true.b3.goodsoft <- mean(d.true$tick[d.true$block== 3 & d.true$mark == "goodsoft"], na.rm = T)
-    result$time.true.b3.badalco  <- mean(d.true$tick[d.true$block== 3 & d.true$mark == "badalco"], na.rm = T)
+    result$time.true.b3.goodsoft <- median(d.true$tick[d.true$block== 3 & d.true$mark == "goodsoft"], na.rm = T)
+    result$time.true.b3.badalco  <- median(d.true$tick[d.true$block== 3 & d.true$mark == "badalco"], na.rm = T)
     
-    result$time.true.b4.goodsoft <- mean(d.true$tick[d.true$block== 4 & d.true$mark == "goodsoft"], na.rm = T)
-    result$time.true.b4.badalco  <- mean(d.true$tick[d.true$block== 4 & d.true$mark == "badalco"], na.rm = T)
+    result$time.true.b4.goodsoft <- median(d.true$tick[d.true$block== 4 & d.true$mark == "goodsoft"], na.rm = T)
+    result$time.true.b4.badalco  <- median(d.true$tick[d.true$block== 4 & d.true$mark == "badalco"], na.rm = T)
     
-    result$time.true.b5.bad      <- mean(d.true$tick[d.true$block== 5 & d.true$mark == "bad"], na.rm = T)
-    result$time.true.b5.good     <- mean(d.true$tick[d.true$block== 5 & d.true$mark == "good"], na.rm = T)
+    result$time.true.b5.bad      <- median(d.true$tick[d.true$block== 5 & d.true$mark == "bad"], na.rm = T)
+    result$time.true.b5.good     <- median(d.true$tick[d.true$block== 5 & d.true$mark == "good"], na.rm = T)
     
-    result$time.true.b5.badsoft  <- mean(d.true$tick[d.true$block== 6 & d.true$mark == "badsoft"], na.rm = T)
-    result$time.true.b5.goodalco <- mean(d.true$tick[d.true$block== 6 & d.true$mark == "goodalco"], na.rm = T)
+    result$time.true.b6.badsoft  <- median(d.true$tick[d.true$block== 6 & d.true$mark == "badsoft"], na.rm = T)
+    result$time.true.b6.goodalco <- median(d.true$tick[d.true$block== 6 & d.true$mark == "goodalco"], na.rm = T)
     
-    result$time.true.b5.badsoft  <- mean(d.true$tick[d.true$block== 7 & d.true$mark == "badsoft"], na.rm = T)
-    result$time.true.b5.goodalco <- mean(d.true$tick[d.true$block== 7 & d.true$mark == "goodalco"], na.rm = T)
+    result$time.true.b7.badsoft  <- median(d.true$tick[d.true$block== 7 & d.true$mark == "badsoft"], na.rm = T)
+    result$time.true.b7.goodalco <- median(d.true$tick[d.true$block== 7 & d.true$mark == "goodalco"], na.rm = T)
     
-    # tap duration
-    result$duration.true.b1.soft     <- mean(d.true$duration[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
-    result$duration.true.b1.alco     <- mean(d.true$duration[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    # TRUE time ratios
+    result$ratio.time.b1 <- median(d.true$tick[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)/median(d.true$tick[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    result$ratio.time.b2 <- median(d.true$tick[d.true$block== 2 & d.true$mark == "good"], na.rm = T)/median(d.true$tick[d.true$block== 2 & d.true$mark == "bad"], na.rm = T)
+    result$ratio.time.b3 <- median(d.true$tick[d.true$block== 3 & d.true$mark == "goodsoft"], na.rm = T)/median(d.true$tick[d.true$block== 3 & d.true$mark == "badalco"], na.rm = T)
+    result$ratio.time.b4 <- median(d.true$tick[d.true$block== 4 & d.true$mark == "goodsoft"], na.rm = T)/median(d.true$tick[d.true$block== 4 & d.true$mark == "badalco"], na.rm = T)
+    result$ratio.time.b5 <- median(d.true$tick[d.true$block== 5 & d.true$mark == "bad"], na.rm = T)/median(d.true$tick[d.true$block== 5 & d.true$mark == "good"], na.rm = T)
+    result$ratio.time.b6 <- median(d.true$tick[d.true$block== 6 & d.true$mark == "badsoft"], na.rm = T)/median(d.true$tick[d.true$block== 6 & d.true$mark == "goodalco"], na.rm = T)
+    result$ratio.time.b7 <- median(d.true$tick[d.true$block== 7 & d.true$mark == "badsoft"], na.rm = T)/median(d.true$tick[d.true$block== 7 & d.true$mark == "goodalco"], na.rm = T)
     
-    result$duration.true.b2.good     <- mean(d.true$duration[d.true$block== 2 & d.true$mark == "good"], na.rm = T)
-    result$duration.true.b2.bad      <- mean(d.true$duration[d.true$block== 2 & d.true$mark == "bad"], na.rm = T)
+    # TRUE time corrections
+    result$corrected.time.b3.good <- median(d.true$tick[d.true$block== 3 & d.true$mark == "goodsoft"], na.rm = T) - median(d.true$tick[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
+    result$corrected.time.b3.soft <- median(d.true$tick[d.true$block== 3 & d.true$mark == "goodsoft"], na.rm = T) - median(d.true$tick[d.true$block== 2 & d.true$mark == "good"], na.rm = T)
+    result$corrected.time.b3.bad  <- median(d.true$tick[d.true$block== 3 & d.true$mark == "badalco"], na.rm = T) - median(d.true$tick[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    result$corrected.time.b3.alco <- median(d.true$tick[d.true$block== 3 & d.true$mark == "badalco"], na.rm = T) - median(d.true$tick[d.true$block== 2 & d.true$mark == "bad"], na.rm = T)
     
-    result$duration.true.b3.goodsoft <- mean(d.true$duration[d.true$block== 3 & d.true$mark == "goodsoft"], na.rm = T)
-    result$duration.true.b3.badalco  <- mean(d.true$duration[d.true$block== 3 & d.true$mark == "badalco"], na.rm = T)
+    result$corrected.time.b4.good <- median(d.true$tick[d.true$block== 4 & d.true$mark == "goodsoft"], na.rm = T) - median(d.true$tick[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
+    result$corrected.time.b4.soft <- median(d.true$tick[d.true$block== 4 & d.true$mark == "goodsoft"], na.rm = T) - median(d.true$tick[d.true$block== 2 & d.true$mark == "good"], na.rm = T)
+    result$corrected.time.b4.bad  <- median(d.true$tick[d.true$block== 4 & d.true$mark == "badalco"], na.rm = T) - median(d.true$tick[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    result$corrected.time.b4.alco <- median(d.true$tick[d.true$block== 4 & d.true$mark == "badalco"], na.rm = T) - median(d.true$tick[d.true$block== 2 & d.true$mark == "bad"], na.rm = T)
     
-    result$duration.true.b4.goodsoft <- mean(d.true$duration[d.true$block== 4 & d.true$mark == "goodsoft"], na.rm = T)
-    result$duration.true.b4.badalco  <- mean(d.true$duration[d.true$block== 4 & d.true$mark == "badalco"], na.rm = T)
+    result$corrected.time.b6.bad  <- median(d.true$tick[d.true$block== 6 & d.true$mark == "badsoft"], na.rm = T) - median(d.true$tick[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
+    result$corrected.time.b6.soft <- median(d.true$tick[d.true$block== 6 & d.true$mark == "badsoft"], na.rm = T) - median(d.true$tick[d.true$block== 5 & d.true$mark == "bad"], na.rm = T)
+    result$corrected.time.b6.good <- median(d.true$tick[d.true$block== 6 & d.true$mark == "goodalco"], na.rm = T) - median(d.true$tick[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    result$corrected.time.b6.alco <- median(d.true$tick[d.true$block== 6 & d.true$mark == "goodalco"], na.rm = T) - median(d.true$tick[d.true$block== 5 & d.true$mark == "good"], na.rm = T)
     
-    result$duration.true.b5.bad      <- mean(d.true$duration[d.true$block== 5 & d.true$mark == "bad"], na.rm = T)
-    result$duration.true.b5.good     <- mean(d.true$duration[d.true$block== 5 & d.true$mark == "good"], na.rm = T)
+    result$corrected.time.b7.bad  <- median(d.true$tick[d.true$block== 7 & d.true$mark == "badsoft"], na.rm = T) - median(d.true$tick[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
+    result$corrected.time.b7.soft <- median(d.true$tick[d.true$block== 7 & d.true$mark == "badsoft"], na.rm = T) - median(d.true$tick[d.true$block== 5 & d.true$mark == "bad"], na.rm = T)
+    result$corrected.time.b7.good <- median(d.true$tick[d.true$block== 7 & d.true$mark == "goodalco"], na.rm = T) - median(d.true$tick[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    result$corrected.time.b7.alco <- median(d.true$tick[d.true$block== 7 & d.true$mark == "goodalco"], na.rm = T) - median(d.true$tick[d.true$block== 5 & d.true$mark == "good"], na.rm = T)
     
-    result$duration.true.b5.badsoft  <- mean(d.true$duration[d.true$block== 6 & d.true$mark == "badsoft"], na.rm = T)
-    result$duration.true.b5.goodalco <- mean(d.true$duration[d.true$block== 6 & d.true$mark == "goodalco"], na.rm = T)
+    # TRUE tap duration
+    result$duration.true.b1.soft     <- median(d.true$duration[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
+    result$duration.true.b1.alco     <- median(d.true$duration[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
     
-    result$duration.true.b5.badsoft  <- mean(d.true$duration[d.true$block== 7 & d.true$mark == "badsoft"], na.rm = T)
-    result$duration.true.b5.goodalco <- mean(d.true$duration[d.true$block== 7 & d.true$mark == "goodalco"], na.rm = T)
+    result$duration.true.b2.good     <- median(d.true$duration[d.true$block== 2 & d.true$mark == "good"], na.rm = T)
+    result$duration.true.b2.bad      <- median(d.true$duration[d.true$block== 2 & d.true$mark == "bad"], na.rm = T)
+    
+    result$duration.true.b3.goodsoft <- median(d.true$duration[d.true$block== 3 & d.true$mark == "goodsoft"], na.rm = T)
+    result$duration.true.b3.badalco  <- median(d.true$duration[d.true$block== 3 & d.true$mark == "badalco"], na.rm = T)
+    
+    result$duration.true.b4.goodsoft <- median(d.true$duration[d.true$block== 4 & d.true$mark == "goodsoft"], na.rm = T)
+    result$duration.true.b4.badalco  <- median(d.true$duration[d.true$block== 4 & d.true$mark == "badalco"], na.rm = T)
+    
+    result$duration.true.b5.bad      <- median(d.true$duration[d.true$block== 5 & d.true$mark == "bad"], na.rm = T)
+    result$duration.true.b5.good     <- median(d.true$duration[d.true$block== 5 & d.true$mark == "good"], na.rm = T)
+    
+    result$duration.true.b6.badsoft  <- median(d.true$duration[d.true$block== 6 & d.true$mark == "badsoft"], na.rm = T)
+    result$duration.true.b6.goodalco <- median(d.true$duration[d.true$block== 6 & d.true$mark == "goodalco"], na.rm = T)
+    
+    result$duration.true.b7.badsoft  <- median(d.true$duration[d.true$block== 7 & d.true$mark == "badsoft"], na.rm = T)
+    result$duration.true.b7.goodalco <- median(d.true$duration[d.true$block== 7 & d.true$mark == "goodalco"], na.rm = T)
+    
+    # TRUE duration ratios
+    result$ratio.duration.b1 <- median(d.true$duration[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)/median(d.true$duration[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    result$ratio.duration.b2 <- median(d.true$duration[d.true$block== 2 & d.true$mark == "good"], na.rm = T)/median(d.true$duration[d.true$block== 2 & d.true$mark == "bad"], na.rm = T)
+    result$ratio.duration.b3 <- median(d.true$duration[d.true$block== 3 & d.true$mark == "goodsoft"], na.rm = T)/median(d.true$duration[d.true$block== 3 & d.true$mark == "badalco"], na.rm = T)
+    result$ratio.duration.b4 <- median(d.true$duration[d.true$block== 4 & d.true$mark == "goodsoft"], na.rm = T)/median(d.true$duration[d.true$block== 4 & d.true$mark == "badalco"], na.rm = T)
+    result$ratio.duration.b5 <- median(d.true$duration[d.true$block== 5 & d.true$mark == "bad"], na.rm = T)/median(d.true$duration[d.true$block== 5 & d.true$mark == "good"], na.rm = T)
+    result$ratio.duration.b6 <- median(d.true$duration[d.true$block== 6 & d.true$mark == "badsoft"], na.rm = T)/median(d.true$duration[d.true$block== 6 & d.true$mark == "goodalco"], na.rm = T)
+    result$ratio.duration.b7 <- median(d.true$duration[d.true$block== 7 & d.true$mark == "badsoft"], na.rm = T)/median(d.true$duration[d.true$block== 7 & d.true$mark == "goodalco"], na.rm = T)
+    
+    # TRUE duration corrections
+    result$corrected.duration.b3.good <- median(d.true$duration[d.true$block== 3 & d.true$mark == "goodsoft"], na.rm = T) - median(d.true$duration[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
+    result$corrected.duration.b3.soft <- median(d.true$duration[d.true$block== 3 & d.true$mark == "goodsoft"], na.rm = T) - median(d.true$duration[d.true$block== 2 & d.true$mark == "good"], na.rm = T)
+    result$corrected.duration.b3.bad  <- median(d.true$duration[d.true$block== 3 & d.true$mark == "badalco"], na.rm = T) - median(d.true$duration[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    result$corrected.duration.b3.alco <- median(d.true$duration[d.true$block== 3 & d.true$mark == "badalco"], na.rm = T) - median(d.true$duration[d.true$block== 2 & d.true$mark == "bad"], na.rm = T)
+    
+    result$corrected.duration.b4.good <- median(d.true$duration[d.true$block== 4 & d.true$mark == "goodsoft"], na.rm = T) - median(d.true$duration[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
+    result$corrected.duration.b4.soft <- median(d.true$duration[d.true$block== 4 & d.true$mark == "goodsoft"], na.rm = T) - median(d.true$duration[d.true$block== 2 & d.true$mark == "good"], na.rm = T)
+    result$corrected.duration.b4.bad  <- median(d.true$duration[d.true$block== 4 & d.true$mark == "badalco"], na.rm = T) - median(d.true$duration[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    result$corrected.duration.b4.alco <- median(d.true$duration[d.true$block== 4 & d.true$mark == "badalco"], na.rm = T) - median(d.true$duration[d.true$block== 2 & d.true$mark == "bad"], na.rm = T)
+    
+    result$corrected.duration.b6.bad  <- median(d.true$duration[d.true$block== 6 & d.true$mark == "badsoft"], na.rm = T) - median(d.true$duration[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
+    result$corrected.duration.b6.soft <- median(d.true$duration[d.true$block== 6 & d.true$mark == "badsoft"], na.rm = T) - median(d.true$duration[d.true$block== 5 & d.true$mark == "bad"], na.rm = T)
+    result$corrected.duration.b6.good <- median(d.true$duration[d.true$block== 6 & d.true$mark == "goodalco"], na.rm = T) - median(d.true$duration[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    result$corrected.duration.b6.alco <- median(d.true$duration[d.true$block== 6 & d.true$mark == "goodalco"], na.rm = T) - median(d.true$duration[d.true$block== 5 & d.true$mark == "good"], na.rm = T)
+    
+    result$corrected.duration.b7.bad  <- median(d.true$duration[d.true$block== 7 & d.true$mark == "badsoft"], na.rm = T) - median(d.true$duration[d.true$block== 1 & d.true$mark == "soft"], na.rm = T)
+    result$corrected.duration.b7.soft <- median(d.true$duration[d.true$block== 7 & d.true$mark == "badsoft"], na.rm = T) - median(d.true$duration[d.true$block== 5 & d.true$mark == "bad"], na.rm = T)
+    result$corrected.duration.b7.good <- median(d.true$duration[d.true$block== 7 & d.true$mark == "goodalco"], na.rm = T) - median(d.true$duration[d.true$block== 1 & d.true$mark == "alco"], na.rm = T)
+    result$corrected.duration.b7.alco <- median(d.true$duration[d.true$block== 7 & d.true$mark == "goodalco"], na.rm = T) - median(d.true$duration[d.true$block== 5 & d.true$mark == "good"], na.rm = T)
+    
     
     
     d$time     <- as.integer(d$time/1000)
     d$datetime <- as.POSIXct(d$time, origin="1970-01-01")
     d$datetime <- format(d$datetime, format="%H:%M:%S")
 
-    ##########################################################################################
-    # Интервал между касаниями
-    ggplot(d, aes(x=factor(size), y=remove_outliers(tick))) +
-      geom_violin(scale="width") +
-      geom_smooth(method = "gam", se=TRUE, aes(group=1)) +
-      geom_boxplot(width=.12, fill=I("black"), notch=T, outlier.size=NA, col="grey40") +
-      stat_summary(fun.y="median", geom="point", shape=20, col="red", size = 10) +
-      ggtitle("Результаты BART") +
-      labs(x="Вид шара", y="Интервал между касаниями, мс") +
-      facet_grid(E~name, labeller = labeller(E = E.names)) +
-      scale_x_discrete(labels = c("Красный шар","Желтый шар","Зеленый шар")) +
-      theme(legend.position="none",
-            axis.text=element_text(size=12),
-            axis.title=element_text(size=16,face="bold")) +
-      scale_fill_brewer() + geom_jitter(alpha = 0.8) +
-      theme(plot.title = element_text(size=16, face='bold', hjust=0.5),
-            axis.text.x  = element_text(angle=0, vjust=0, size=16),
-            axis.ticks.x = element_blank(),
-            axis.title.y = element_text(face="bold", size=20),
-            axis.text.y  = element_text(angle=90, vjust=0, size=16))
-    
-    sprintf("%.2f±%.2f", mean(d$tick[d$E == 1 & d$size == 8], na.rm = T), sd(d$tick[d$E == 1 & d$size == 8], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$tick[d$E == 2 & d$size == 8], na.rm = T), sd(d$tick[d$E == 2 & d$size == 8], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$tick[d$E == 3 & d$size == 8], na.rm = T), sd(d$tick[d$E == 3 & d$size == 8], na.rm = T))
-    
-    sprintf("%.2f±%.2f", mean(d$tick[d$E == 1 & d$size == 32], na.rm = T), sd(d$tick[d$E == 1 & d$size == 32], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$tick[d$E == 2 & d$size == 32], na.rm = T), sd(d$tick[d$E == 2 & d$size == 32], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$tick[d$E == 3 & d$size == 32], na.rm = T), sd(d$tick[d$E == 3 & d$size == 32], na.rm = T))
-    
-    sprintf("%.2f±%.2f", mean(d$tick[d$E == 1 & d$size == 128], na.rm = T), sd(d$tick[d$E == 1 & d$size == 128], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$tick[d$E == 2 & d$size == 128], na.rm = T), sd(d$tick[d$E == 2 & d$size == 128], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$tick[d$E == 3 & d$size == 128], na.rm = T), sd(d$tick[d$E == 3 & d$size == 128], na.rm = T))
-    
-    
-    result$interval.H1 <- mean(d$tick[d$E == 1 & d$size == 8])
-    result$interval.H2 <- mean(d$tick[d$E == 2 & d$size == 8])
-    result$interval.H3 <- mean(d$tick[d$E == 3 & d$size == 8])
-    
-    result$interval.M1 <- mean(d$tick[d$E == 1 & d$size == 32])
-    result$interval.M2 <- mean(d$tick[d$E == 2 & d$size == 32])
-    result$interval.M3 <- mean(d$tick[d$E == 3 & d$size == 32])
-    
-    result$interval.L1 <- mean(d$tick[d$E == 1 & d$size == 128])
-    result$interval.L2 <- mean(d$tick[d$E == 2 & d$size == 128])
-    result$interval.L3 <- mean(d$tick[d$E == 3 & d$size == 128])
-    
-    # scaled time
-    result$interval.std.H1 <- mean(scale(d$tick[d$E == 1 & d$size == 8]))
-    result$interval.std.H2 <- mean(scale(d$tick[d$E == 2 & d$size == 8]))
-    result$interval.std.H3 <- mean(scale(d$tick[d$E == 3 & d$size == 8]))
-    
-    result$interval.std.M1 <- mean(scale(d$tick[d$E == 1 & d$size == 32]))
-    result$interval.std.M2 <- mean(scale(d$tick[d$E == 2 & d$size == 32]))
-    result$interval.std.M3 <- mean(scale(d$tick[d$E == 3 & d$size == 32]))
-    
-    result$interval.std.L1 <- mean(scale(d$tick[d$E == 1 & d$size == 128]))
-    result$interval.std.L2 <- mean(scale(d$tick[d$E == 2 & d$size == 128]))
-    result$interval.std.L3 <- mean(scale(d$tick[d$E == 3 & d$size == 128]))
-    
-    ##########################################################################################
-    # Продолжительность касания
-    
-    ggplot(d, aes(x=factor(size), y=remove_outliers(duration))) +
-      geom_violin(scale="width") +
-      geom_smooth(method = "gam", se=TRUE, aes(group=1)) +
-      geom_boxplot(width=.12, fill=I("black"), notch=T, outlier.size=NA, col="grey40") +
-      stat_summary(fun.y="median", geom="point", shape=20, col="red", size = 10) +
-      ggtitle("Результаты BART") +
-      labs(x="Вид шара", y="Продолжительность касания, мс") +
-      facet_grid(E~name, labeller = labeller(E = E.names)) +
-      scale_x_discrete(labels = c("Красный шар","Желтый шар","Зеленый шар")) +
-      theme(legend.position="none",
-            axis.text=element_text(size=12),
-            axis.title=element_text(size=16,face="bold")) +
-      scale_fill_brewer() + geom_jitter(alpha = 0.8) +
-      theme(plot.title = element_text(size=16, face='bold', hjust=0.5),
-            axis.text.x  = element_text(angle=0, vjust=0, size=16),
-            axis.ticks.x = element_blank(),
-            axis.title.y = element_text(face="bold", size=20),
-            axis.text.y  = element_text(angle=90, vjust=0, size=16))
-    
-    
-    sprintf("%.2f±%.2f", mean(d$duration[d$E == 1 & d$size == 8], na.rm = T), sd(d$duration[d$E == 1 & d$size == 8], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$duration[d$E == 2 & d$size == 8], na.rm = T), sd(d$duration[d$E == 2 & d$size == 8], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$duration[d$E == 3 & d$size == 8], na.rm = T), sd(d$duration[d$E == 3 & d$size == 8], na.rm = T))
-    
-    sprintf("%.2f±%.2f", mean(d$duration[d$E == 1 & d$size == 32], na.rm = T), sd(d$duration[d$E == 1 & d$size == 32], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$duration[d$E == 2 & d$size == 32], na.rm = T), sd(d$duration[d$E == 2 & d$size == 32], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$duration[d$E == 3 & d$size == 32], na.rm = T), sd(d$duration[d$E == 3 & d$size == 32], na.rm = T))
-    
-    sprintf("%.2f±%.2f", mean(d$duration[d$E == 1 & d$size == 128], na.rm = T), sd(d$duration[d$E == 1 & d$size == 128], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$duration[d$E == 2 & d$size == 128], na.rm = T), sd(d$duration[d$E == 2 & d$size == 128], na.rm = T))
-    sprintf("%.2f±%.2f", mean(d$duration[d$E == 3 & d$size == 128], na.rm = T), sd(d$duration[d$E == 3 & d$size == 128], na.rm = T))
-    
-    
-    result$duration.H1 <- mean(d$duration[d$E == 1 & d$size == 8])
-    result$duration.H2 <- mean(d$duration[d$E == 2 & d$size == 8])
-    result$duration.H3 <- mean(d$duration[d$E == 3 & d$size == 8])
-    
-    result$duration.M1 <- mean(d$duration[d$E == 1 & d$size == 32])
-    result$duration.M2 <- mean(d$duration[d$E == 2 & d$size == 32])
-    result$duration.M3 <- mean(d$duration[d$E == 3 & d$size == 32])
-    
-    result$duration.L1 <- mean(d$duration[d$E == 1 & d$size == 128])
-    result$duration.L2 <- mean(d$duration[d$E == 2 & d$size == 128])
-    result$duration.L3 <- mean(d$duration[d$E == 3 & d$size == 128])
-    
-    # scaled time
-    result$duration.std.H1 <- mean(scale(d$duration[d$E == 1 & d$size == 8]))
-    result$duration.std.H2 <- mean(scale(d$duration[d$E == 2 & d$size == 8]))
-    result$duration.std.H3 <- mean(scale(d$duration[d$E == 3 & d$size == 8]))
-    
-    result$duration.std.M1 <- mean(scale(d$duration[d$E == 1 & d$size == 32]))
-    result$duration.std.M2 <- mean(scale(d$duration[d$E == 2 & d$size == 32]))
-    result$duration.std.M3 <- mean(scale(d$duration[d$E == 3 & d$size == 32]))
-    
-    result$duration.std.L1 <- mean(scale(d$duration[d$E == 1 & d$size == 128]))
-    result$duration.std.L2 <- mean(scale(d$duration[d$E == 2 & d$size == 128]))
-    result$duration.std.L3 <- mean(scale(d$duration[d$E == 3 & d$size == 128]))
-    
-    ##########################################################################################
-    # Скорость касания (отношение интервала между касаниями к их продолжительности)
-    
-    ggplot(d, aes(x=factor(size), y=remove_outliers(tick/duration))) +
-      geom_violin(scale="width") +
-      geom_smooth(method = "gam", se=TRUE, aes(group=1)) +
-      geom_boxplot(width=.12, fill=I("black"), notch=T, outlier.size=NA, col="grey40") +
-      stat_summary(fun.y="median", geom="point", shape=20, col="red", size = 10) +
-      ggtitle("Результаты BART") +
-      labs(x="Вид шара", y="Скорость касания, мс") +
-      facet_grid(E~name, labeller = labeller(E = E.names)) +
-      scale_x_discrete(labels = c("Красный шар","Желтый шар","Зеленый шар")) +
-      theme(legend.position="none",
-            axis.text=element_text(size=12),
-            axis.title=element_text(size=16,face="bold")) +
-      scale_fill_brewer() + geom_jitter(alpha = 0.8) +
-      theme(plot.title = element_text(size=16, face='bold', hjust=0.5),
-            axis.text.x  = element_text(angle=0, vjust=0, size=16),
-            axis.ticks.x = element_blank(),
-            axis.title.y = element_text(face="bold", size=20),
-            axis.text.y  = element_text(angle=90, vjust=0, size=16))
-    
-    result$speed.H1 <- mean(d$tick[d$E == 1 & d$size == 8]/d$duration[d$E == 1 & d$size == 8], na.rm = T)
-    result$speed.H2 <- mean(d$tick[d$E == 2 & d$size == 8]/d$duration[d$E == 2 & d$size == 8], na.rm = T)
-    result$speed.H3 <- mean(d$tick[d$E == 3 & d$size == 8]/d$duration[d$E == 3 & d$size == 8], na.rm = T)
-    
-    result$speed.M1 <- mean(d$tick[d$E == 1 & d$size == 32]/d$duration[d$E == 1 & d$size == 32], na.rm = T)
-    result$speed.M2 <- mean(d$tick[d$E == 2 & d$size == 32]/d$duration[d$E == 2 & d$size == 32], na.rm = T)
-    result$speed.M3 <- mean(d$tick[d$E == 3 & d$size == 32]/d$duration[d$E == 3 & d$size == 32], na.rm = T)
-    
-    result$speed.L1 <- mean(d$tick[d$E == 1 & d$size == 128]/d$duration[d$E == 1 & d$size == 128], na.rm = T)
-    result$speed.L2 <- mean(d$tick[d$E == 2 & d$size == 128]/d$duration[d$E == 2 & d$size == 128], na.rm = T)
-    result$speed.L3 <- mean(d$tick[d$E == 3 & d$size == 128]/d$duration[d$E == 3 & d$size == 128], na.rm = T)
-    
-    result$speed.cor.H1 <- cor.test(d$tick[d$E == 1 & d$size == 8], d$duration[d$E == 1 & d$size == 8], method = "sp")$estimate
-    result$speed.cor.H2 <- cor.test(d$tick[d$E == 2 & d$size == 8], d$duration[d$E == 2 & d$size == 8], method = "sp")$estimate
-    result$speed.cor.H3 <- cor.test(d$tick[d$E == 3 & d$size == 8], d$duration[d$E == 3 & d$size == 8], method = "sp")$estimate
-    
-    result$speed.cor.M1 <- cor.test(d$tick[d$E == 1 & d$size == 32], d$duration[d$E == 1 & d$size == 32], method = "sp")$estimate
-    result$speed.cor.M2 <- cor.test(d$tick[d$E == 2 & d$size == 32], d$duration[d$E == 2 & d$size == 32], method = "sp")$estimate
-    result$speed.cor.M3 <- cor.test(d$tick[d$E == 3 & d$size == 32], d$duration[d$E == 3 & d$size == 32], method = "sp")$estimate
-    
-    result$speed.cor.L1 <- cor.test(d$tick[d$E == 1 & d$size == 128], d$duration[d$E == 1 & d$size == 128], method = "sp")$estimate
-    result$speed.cor.L2 <- cor.test(d$tick[d$E == 2 & d$size == 128], d$duration[d$E == 2 & d$size == 128], method = "sp")$estimate
-    result$speed.cor.L3 <- cor.test(d$tick[d$E == 3 & d$size == 128], d$duration[d$E == 3 & d$size == 128], method = "sp")$estimate
-    
-    
-    ##########################################################################################
-    # Доля взорвавшихся и сохраненных шаров
-    dm <- d[,c("size","mark","E")]
-    dm <- dm[dm$mark != "pump", ]; dm$mark <- droplevels(dm$mark)
-    table(dm)
-    mosaicplot(~E+mark+size, data = dm, color = 2:4, main = "Доля взорвавшихся и сохраненных шаров")
-    
-    result$save.ratio.E1 <- sum(dm$mark == "save" & dm$E == 1)/sum(dm$E == 1)
-    result$save.ratio.E2 <- sum(dm$mark == "save" & dm$E == 2)/sum(dm$E == 2)
-    result$save.ratio.E3 <- sum(dm$mark == "save" & dm$E == 3)/sum(dm$E == 3)
-    
-    result$save.ratio.H1 <- sum(dm$mark == "save" & dm$E == 1 & dm$size == 8)/sum(dm$E == 1 & dm$size == 8)
-    result$save.ratio.H2 <- sum(dm$mark == "save" & dm$E == 2 & dm$size == 8)/sum(dm$E == 2 & dm$size == 8)
-    result$save.ratio.H3 <- sum(dm$mark == "save" & dm$E == 3 & dm$size == 8)/sum(dm$E == 3 & dm$size == 8)
-    
-    result$save.ratio.M1 <- sum(dm$mark == "save" & dm$E == 1 & dm$size == 32)/sum(dm$E == 1 & dm$size == 32)
-    result$save.ratio.M2 <- sum(dm$mark == "save" & dm$E == 2 & dm$size == 32)/sum(dm$E == 2 & dm$size == 32)
-    result$save.ratio.M3 <- sum(dm$mark == "save" & dm$E == 3 & dm$size == 32)/sum(dm$E == 3 & dm$size == 32)
-    
-    result$save.ratio.L1 <- sum(dm$mark == "save" & dm$E == 1 & dm$size == 128)/sum(dm$E == 1 & dm$size == 128)
-    result$save.ratio.L2 <- sum(dm$mark == "save" & dm$E == 2 & dm$size == 128)/sum(dm$E == 2 & dm$size == 128)
-    result$save.ratio.L3 <- sum(dm$mark == "save" & dm$E == 3 & dm$size == 128)/sum(dm$E == 3 & dm$size == 128)
-    
-    ##########################################################################################
-    # Продолжительность страйков
-    dm <- d[,c("mark","E")]
-    dm <- dm[dm$mark != "pump", ]; dm$mark <- droplevels(dm$mark)
-    
-    # Всего страйков взорвавшихся и сохраненных по 3 этапам
-    tmp <- rle(as.character(dm$mark))
-    result$seq.exploded <- mean(tmp$lengths[tmp$values == "exploded"])
-    result$seq.saved    <- mean(tmp$lengths[tmp$values == "save"])
-    
-    # Взорвавшихся и сохраненных страйков на первом этапе
-    dm1 <- dm[dm$E == 1,]
-    tmp <- rle(as.character(dm1$mark))
-    result$seq.exploded.E1 <- mean(tmp$lengths[tmp$values == "exploded"])
-    result$seq.saved.E1    <- mean(tmp$lengths[tmp$values == "save"])
-    
-    # Взорвавшихся и сохраненных страйков на втором этапе
-    dm2 <- dm[dm$E == 2,]
-    tmp <- rle(as.character(dm2$mark))
-    result$seq.exploded.E2 <- mean(tmp$lengths[tmp$values == "exploded"])
-    result$seq.saved.E2    <- mean(tmp$lengths[tmp$values == "save"])
-    
-    # Взорвавшихся и сохраненных страйков на третьем этапе
-    dm3 <- dm[dm$E == 3,]
-    tmp <- rle(as.character(dm3$mark))
-    result$seq.exploded.E3 <- mean(tmp$lengths[tmp$values == "exploded"])
-    result$seq.saved.E3    <- mean(tmp$lengths[tmp$values == "save"])
-    
-    rm(dm1, dm2, dm3, tmp)
-    
     # Результаты
     
     tbl <- t(result)
